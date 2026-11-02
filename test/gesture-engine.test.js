@@ -78,6 +78,7 @@ test("unsubscribe stops receiving events", () => {
 test("browser adapter attaches and removes sensor listeners", async () => {
   const listeners = new Map();
   const fakeWindow = {
+    DeviceMotionEvent: class DeviceMotionEvent {},
     addEventListener: (name, fn) => listeners.set(name, fn),
     removeEventListener: (name) => listeners.delete(name)
   };
@@ -98,4 +99,5 @@ test("requests permission from permission-gated sensor constructors", async () =
   const allowed = await MotionPilot.requestPermission({ DeviceMotionEvent: MotionEvent, DeviceOrientationEvent: OrientationEvent });
   assert.equal(allowed, false);
   assert.deepEqual(calls, ["motion", "orientation"]);
+  await assert.rejects(MotionPilot.requestPermission({}), /not supported/);
 });
