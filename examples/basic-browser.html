@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MotionPilot Core Demo</title>
+  <style>
+    body { max-width: 42rem; margin: 3rem auto; padding: 0 1rem; font: 16px/1.55 system-ui, sans-serif; }
+    button { padding: .8rem 1rem; border: 0; border-radius: .7rem; background: #232b3a; color: white; font: inherit; }
+    #status { padding: 1rem; margin-top: 1rem; border-radius: .7rem; background: #f1f4f8; min-height: 3rem; }
+  </style>
+</head>
+<body>
+  <h1>MotionPilot Core</h1>
+  <p>Sensor access starts only after you press the button. No sensor data leaves this page.</p>
+  <button id="start">Enable motion gestures</button>
+  <button id="stop" disabled>Stop</button>
+  <p id="status" role="status" aria-live="polite">Motion detection is off.</p>
+  <script type="module">
+    import { MotionPilot } from "../src/index.js";
+    const status = document.querySelector("#status");
+    const start = document.querySelector("#start");
+    const stop = document.querySelector("#stop");
+    const pilot = new MotionPilot();
+    pilot.onGesture((event) => { status.textContent = `Detected: ${event.type}`; });
+
+    start.addEventListener("click", async () => {
+      try {
+        await pilot.start();
+        status.textContent = "Motion detection is on. Shake or tilt the device.";
+        start.disabled = true;
+        stop.disabled = false;
+      } catch (error) {
+        status.textContent = `Could not start: ${error.message}`;
+      }
+    });
+    stop.addEventListener("click", () => {
+      pilot.stop();
+      status.textContent = "Motion detection is off.";
+      start.disabled = false;
+      stop.disabled = true;
+    });
+  </script>
+</body>
+</html>
