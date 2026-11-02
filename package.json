@@ -1,0 +1,27 @@
+{
+  "name": "motionpilot-core",
+  "version": "0.1.0",
+  "description": "Privacy-first browser motion gesture detection with explicit permission and a deterministic, testable core.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": ["src", "README.md", "LICENSE", "SECURITY.md"],
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/index.js && node --check src/gesture-engine.js && node --check src/motion-pilot.js && npm test"
+  },
+  "keywords": ["motion", "gesture", "deviceorientation", "devicemotion", "browser", "accessibility"],
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/questionanswer5656/motionpilot-build.git"
+  },
+  "bugs": { "url": "https://github.com/questionanswer5656/motionpilot-build/issues" },
+  "homepage": "https://github.com/questionanswer5656/motionpilot-build#readme"
+}
