@@ -24,6 +24,7 @@ export class MotionPilot {
   static async requestPermission(windowRef = globalThis.window) {
     if (!windowRef) throw new Error("Motion sensors are not available in this environment");
     const constructors = [windowRef.DeviceMotionEvent, windowRef.DeviceOrientationEvent].filter(Boolean);
+    if (constructors.length === 0) throw new Error("Device motion and orientation events are not supported");
     for (const SensorEvent of constructors) {
       if (typeof SensorEvent.requestPermission !== "function") continue;
       const result = await SensorEvent.requestPermission.call(SensorEvent);
